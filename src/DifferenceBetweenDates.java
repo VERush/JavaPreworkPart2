@@ -9,28 +9,28 @@ public class DifferenceBetweenDates {
 
 		String firstDate;
 		String secondDate;
+
 		int earlierDate;
 		int laterDate;
-		int firstDateInt;
-		int secondDateInt;
+
 		boolean dateValidResult;
+
+		// Get first date and validate. Loop through until valid date entered.
 
 		do {
 			System.out.println("Enter first date in yyyymmdd format.");
 			firstDate = input.nextLine();
-
 			dateValidResult = isValidDate(firstDate);
 			if (dateValidResult == false) {
 				System.out.println("Date is not valid, please try again.");
 			}
-		}
+		} while (dateValidResult == false);
 
-		while (dateValidResult == false);
+		// Get second date and loop until valid date entered.
 
 		do {
 			System.out.println("Enter second date in yyyymmdd format.");
 			secondDate = input.nextLine();
-
 			dateValidResult = isValidDate(secondDate);
 			if (dateValidResult == false) {
 				System.out.println("Date is not valid, please try again.");
@@ -38,6 +38,8 @@ public class DifferenceBetweenDates {
 		} while (dateValidResult == false);
 
 		input.close();
+
+		// Change date strings to integer
 
 		int firstIntDate = 0;
 		int secondIntDate = 0;
@@ -49,7 +51,7 @@ public class DifferenceBetweenDates {
 			System.exit(0); // Won't happen because values have already been verified.
 		}
 
-		if (firstIntDate < secondIntDate) {
+		if (firstIntDate < secondIntDate) { // Determine which date is later
 			earlierDate = firstIntDate;
 			laterDate = secondIntDate;
 		} else {
@@ -58,7 +60,7 @@ public class DifferenceBetweenDates {
 		}
 
 		int earlierYear = earlierDate / 10000; // Isolate year, discard remainder
-		int earlierMonth = (earlierDate % 10000) / 100; // Divide out year, keep remainder (month and day)
+		int earlierMonth = (earlierDate % 10000) / 100; // Divide year away, keep remainder (month and day)
 														// then divide away day to get month
 		int earlierDay = earlierDate % 100; // Divide away month keep remainder (day)
 
@@ -69,12 +71,13 @@ public class DifferenceBetweenDates {
 		int differenceYears = laterYear - earlierYear;
 
 		if (laterMonth < earlierMonth) {
-			differenceYears = differenceYears - 1;
+			differenceYears = differenceYears - 1; // Carry the one
 			laterMonth = laterMonth + 12;
-	}
+		}
 		int differenceMonths = laterMonth - earlierMonth;
 		int differenceDays = 0;
-		if (laterDay < earlierDay) {
+
+		if (laterDay < earlierDay) { // Add remaining days from previous month
 			differenceDays = laterDay + (daysInMonth(earlierYear, earlierMonth) - earlierDay);
 			differenceMonths = differenceMonths - 1;
 		} else {
@@ -83,8 +86,10 @@ public class DifferenceBetweenDates {
 		System.out.print("Difference is " + differenceYears + " years " + differenceMonths + " months ");
 		System.out.println(differenceDays + " days.");
 	}
+
 	/*
-	 * Following code found at
+	 * *****************************************************************************
+	 * * Following code found at
 	 * https://stackoverflow.com/questions/11480542/fastest-way-to-tell-if-a-string-
 	 * is-a-valid-date and copied in unchanged. Google is our friend. ;)
 	 */
